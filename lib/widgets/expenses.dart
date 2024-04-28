@@ -27,11 +27,11 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
-      isScrollControlled: true ,
-      context: context,
-      builder: (ctx) => NewExpense(
-        onAddExpense: _addExpense,
-      ));
+        isScrollControlled: true,
+        context: context,
+        builder: (ctx) => NewExpense(
+              onAddExpense: _addExpense,
+            ));
   }
 
   void _addExpense(Expense expense) {
@@ -39,6 +39,12 @@ class _ExpensesState extends State<Expenses> {
       _registerExpenses.add(expense);
     });
     Navigator.pop(context);
+  }
+
+  void _removeExpense(Expense expense) {
+    setState(() {
+      _registerExpenses.remove(expense);
+    });
   }
 
   @override
@@ -58,7 +64,10 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           const Text('The chart'),
-          Expanded(child: ExpensesList(expenses: _registerExpenses))
+          Expanded(child: ExpensesList(
+            expenses: _registerExpenses,
+             onRemoveExpense: _removeExpense)
+          )
         ],
       ),
     );
